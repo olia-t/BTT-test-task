@@ -1,5 +1,3 @@
-#Azure Key Vault#
-
 data "azurerm_client_config" "current" {}
 
 #Data about the existing rg
