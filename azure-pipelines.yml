@@ -53,6 +53,9 @@ stages:
 - stage: Deploy
   displayName: Deploy on Dev
   dependsOn: Build
+  variables:
+    acrsecret: akssecretacr
+    acrurl: bttcontainerregistry1.azurecr.io
   jobs:
   - job: Deploy
     displayName: Deploy to AKS
@@ -65,3 +68,23 @@ stages:
         artifactName: 'manifests'
         targetPath: '$(Pipeline.Workspace)/manifests'
     
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'createSecret'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'sc-azdo-AKS-btt'
+        namespace: 'default'
+        secretType: 'dockerRegistry'
+        secretName: '$(acrsecret)'
+        dockerRegistryEndpoint: 'BTTcontainerregistry1'
+
+      - task: KubernetesManifest@1
+        inputs:
+          action: 'deploy'
+          connectionType: 'kubernetesServiceConnection'
+          kubernetesServiceConnection: 'sc-azdo-AKS-btt'
+          namespace: 'default'
+          manifests: |
+            $(Pipeline.Workspace)/manifests/deployment.yml
+            $(Pipeline.Workspace)/manifests/service.yml
+          containers: '$(acrurl)/$(imageRepository)/$(appVersion)'
