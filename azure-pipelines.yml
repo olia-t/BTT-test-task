@@ -78,13 +78,13 @@ stages:
         secretName: '$(acrsecret)'
         dockerRegistryEndpoint: 'BTTcontainerregistry1'
 
-      - task: KubernetesManifest@1
-        inputs:
-          action: 'deploy'
-          connectionType: 'kubernetesServiceConnection'
-          kubernetesServiceConnection: 'sc-azdo-AKS-btt'
-          namespace: 'default'
-          manifests: |
-            $(Pipeline.Workspace)/manifests/deployment.yml
-            $(Pipeline.Workspace)/manifests/service.yml
-          containers: '$(acrurl)/$(imageRepository)/$(appVersion)'
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'deploy'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'sc-azdo-AKS-btt'
+        namespace: 'default'
+        manifests: |
+          $(Pipeline.Workspace)/manifests/deployment.yml
+          $(Pipeline.Workspace)/manifests/service.yml
+        containers: '$(acrurl)/$(imageRepository)/$(appVersion)'
