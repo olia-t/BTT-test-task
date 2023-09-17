@@ -40,3 +40,8 @@ variable "container_registry_name" {
     type = string
   
 }
+
+variable "kubernetes_cluster_name" {
+    type = string
+  
+}
