@@ -19,3 +19,24 @@ variable "client_secret" {
     default = ""
   
 }
+
+variable "resource_group_name" {
+    type = string
+    description = "Name of the resource group"
+  
+}
+
+variable "location" {
+    type = string
+  
+}
+
+variable "key_vault_name" {
+    type = string
+  
+}
+
+variable "container_registry_name" {
+    type = string
+  
+}
