@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: nodejsdemo-app 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejsdemo-app
+  template:
+    metadata:
+      labels:
+        app: nodejsdemo-app 
+    spec:
+      containers:
+        - name: nodejsdemo-app 
+          image: bttcontainerregistry1.azurecr.io/nodejsdemoapp
+          ports:
+          - containerPort: 80
