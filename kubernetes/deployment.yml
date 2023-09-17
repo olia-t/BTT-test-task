@@ -17,3 +17,5 @@ spec:
           image: bttcontainerregistry1.azurecr.io/nodejsdemoapp
           ports:
           - containerPort: 80
+      imagePullSecrets:
+        - name: akssecretacr
