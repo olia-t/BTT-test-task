@@ -31,6 +31,7 @@ stages:
     - bash: |
         version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
         echo "##vso[task.setvariable variable=appVersion]$version"
+        echo $(appVersion)
       
       displayName: 'Extract Version from package.json'
       env:
