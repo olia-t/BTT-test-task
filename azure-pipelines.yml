@@ -94,4 +94,4 @@ stages:
         manifests: |
           $(Pipeline.Workspace)/manifests/deployment.yml
           $(Pipeline.Workspace)/manifests/service.yml
-        containers: '$(acrurl)/$(imageRepository)/$(appVersion)'
+        containers: '$(acrurl)/$(imageRepository):$(appVersion)'
