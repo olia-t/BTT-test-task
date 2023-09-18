@@ -90,6 +90,7 @@ stages:
         connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'sc-azdo-aks-btt'
         namespace: 'default'
+        imagePullSecrets: '$(acrsecret)'
         manifests: |
           $(Pipeline.Workspace)/manifests/deployment.yml
           $(Pipeline.Workspace)/manifests/service.yml
