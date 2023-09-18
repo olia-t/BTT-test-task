@@ -82,7 +82,7 @@ stages:
       inputs:
         action: 'deploy'
         connectionType: 'kubernetesServiceConnection'
-        kubernetesServiceConnection: 'sc-azdo-AKS-btt'
+        kubernetesServiceConnection: 'sc-azdo-aks-btt'
         namespace: 'default'
         manifests: |
           $(Pipeline.Workspace)/manifests/deployment.yml
