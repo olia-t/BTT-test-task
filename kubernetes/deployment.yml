@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nodejsdemo-app 
-          image: bttcontainerregistry1.azurecr.io/nodejsdemoapp:$(appVersion)
+          image: bttcontainerregistry1.azurecr.io/nodejsdemoapp
           ports:
           - containerPort: 80
       # imagePullSecrets:
