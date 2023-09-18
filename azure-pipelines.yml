@@ -44,12 +44,18 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(appVersion)
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
-        artifact: 'manifests'
-        publishLocation: 'pipeline'
-    
+
+- stage: Artifacts
+  jobs:
+    - job: ArtifactsDownload
+      displayName: Download k8s manifests
+      steps:
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/s/kubernetes'
+            artifact: 'manifests'
+            publishLocation: 'pipeline'
+
 - stage: Deploy
   displayName: Deploy on Dev
   dependsOn: Build
@@ -72,7 +78,7 @@ stages:
       inputs:
         action: 'createSecret'
         connectionType: 'kubernetesServiceConnection'
-        kubernetesServiceConnection: 'sc-azdo-AKS-btt'
+        kubernetesServiceConnection: 'sc-azdo-aks-btt'
         namespace: 'default'
         secretType: 'dockerRegistry'
         secretName: '$(acrsecret)'
@@ -82,7 +88,7 @@ stages:
       inputs:
         action: 'deploy'
         connectionType: 'kubernetesServiceConnection'
-        kubernetesServiceConnection: 'sc-azdo-AKS-btt'
+        kubernetesServiceConnection: 'sc-azdo-aks-btt'
         namespace: 'default'
         manifests: |
           $(Pipeline.Workspace)/manifests/deployment.yml
