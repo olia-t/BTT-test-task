@@ -47,7 +47,7 @@ stages:
 
 - stage: Artifacts
   jobs:
-    - job: Artifacts download
+    - job: ArtifactsDownload
       displayName: Download k8s manifests
       steps:
         - task: PublishPipelineArtifact@1
@@ -55,7 +55,7 @@ stages:
             targetPath: '$(Pipeline.Workspace)/s/kubernetes'
             artifact: 'manifests'
             publishLocation: 'pipeline'
-            
+
 - stage: Deploy
   displayName: Deploy on Dev
   dependsOn: Build
