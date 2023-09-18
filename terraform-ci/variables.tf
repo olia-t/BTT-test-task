@@ -56,3 +56,9 @@ variable "storage_container_name" {
     type = string
   
 }
+
+variable "storage_account_key" {
+    type = string
+    default = ""
+  
+}
