@@ -44,12 +44,18 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(appVersion)
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
-        artifact: 'manifests'
-        publishLocation: 'pipeline'
-    
+
+- stage: Artifacts
+  jobs:
+    - job: Artifacts download
+      displayName: Download k8s manifests
+      steps:
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/s/kubernetes'
+            artifact: 'manifests'
+            publishLocation: 'pipeline'
+            
 - stage: Deploy
   displayName: Deploy on Dev
   dependsOn: Build
