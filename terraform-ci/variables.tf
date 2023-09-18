@@ -45,3 +45,14 @@ variable "kubernetes_cluster_name" {
     type = string
   
 }
+
+variable "storage_account_name" {
+    type = string
+    description = "Name of Azure storage acc"
+  
+}
+
+variable "storage_container_name" {
+    type = string
+  
+}

@@ -40,8 +40,8 @@ output "sku" {
   
 }
 
-#AKS cluster
-data "azurerm_kubernetes_cluster" "aks-clbtcl" {
-  name                = var.kubernetes_cluster_name
-  resource_group_name = var.resource_group_name
-}
+# #AKS cluster
+# data "azurerm_kubernetes_cluster" "aks-clbtcl" {
+#   name                = var.kubernetes_cluster_name
+#   resource_group_name = var.resource_group_name
+# }
