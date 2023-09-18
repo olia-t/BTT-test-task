@@ -62,3 +62,22 @@ variable "storage_account_key" {
     default = ""
   
 }
+
+variable "ssh_kv_secret" {
+    type = string
+  
+}
+
+variable "spn_client_id" {
+    type = string
+}
+
+variable "spn_kv_secret" {
+    type = string
+  
+}
+
+variable "admin_username" {
+    type = string
+  
+}
