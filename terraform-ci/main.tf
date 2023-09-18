@@ -26,10 +26,22 @@ output "sku_name" {
 }
 
 
-#ACR
+#ACR and pre-requiesites - sp-aks SP
+data "azuread_service_principal" "sp_aks" {
+  application_id = data.azurerm_key_vault_secret.spn_id.value
+}
+
 data "azurerm_container_registry" "acr-BTT" {
   name                = var.container_registry_name
   resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_role_assignment" "acrpull_role" {
+  scope = data.azurerm_container_registry.acr-BTT.id
+  role_definition_name = "AcrPull"
+  principal_id = data.azuread_service_principal.sp_aks.id
+  skip_service_principal_aad_check = true
+  
 }
 
 output "login_server" {

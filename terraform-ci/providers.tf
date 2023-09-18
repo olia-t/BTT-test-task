@@ -9,6 +9,11 @@ terraform {
       source  = "azure/azapi"
       version = "~>1.5"
     }
+    
+    azuread = {
+      source = "hashicorp/azuread"
+      version = "2.42.0"
+    }
   }
   
   backend "azurerm" {
@@ -18,6 +23,13 @@ terraform {
       key                  = "terraform.tfstate"
   }
 
+}
+
+provider "azuread" {
+    client_id       = var.client_id
+    client_secret   = var.client_secret 
+    tenant_id       = var.tenant_id
+  
 }
 
 provider "azurerm" {
