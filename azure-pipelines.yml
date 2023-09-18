@@ -68,15 +68,15 @@ stages:
         artifactName: 'manifests'
         targetPath: '$(Pipeline.Workspace)/manifests'
     
-    # - task: KubernetesManifest@1
-    #   inputs:
-    #     action: 'createSecret'
-    #     connectionType: 'kubernetesServiceConnection'
-    #     kubernetesServiceConnection: 'sc-azdo-AKS-btt'
-    #     namespace: 'default'
-    #     secretType: 'dockerRegistry'
-    #     secretName: '$(acrsecret)'
-    #     dockerRegistryEndpoint: 'BTTcontainerregistry1'
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'createSecret'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'sc-azdo-aks-btt'
+        namespace: 'default'
+        secretType: 'dockerRegistry'
+        secretName: '$(acrsecret)'
+        dockerRegistryEndpoint: 'BTTcontainerregistry1'
 
     - task: KubernetesManifest@1
       inputs:
