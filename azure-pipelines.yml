@@ -69,8 +69,8 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - bash: |
-      version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
-      echo "##vso[task.setvariable variable=appVersion]$version"
+        version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
+        echo "##vso[task.setvariable variable=appVersion]$version"
       
       displayName: 'Extract Version from package.json'
       env:
