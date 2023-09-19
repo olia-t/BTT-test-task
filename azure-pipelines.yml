@@ -68,6 +68,14 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - bash: |
+        version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
+        echo "##vso[task.setvariable variable=appVersion]$version"
+      
+      displayName: 'Extract Version from package.json'
+      env:
+        BUILD_SOURCESDIRECTORY: $(Build.SourcesDirectory)
+
     - task: DownloadPipelineArtifact@2
       inputs:
         buildType: 'current'
@@ -90,7 +98,8 @@ stages:
         connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'sc-azdo-aks-btt'
         namespace: 'default'
+        imagePullSecrets: '$(acrsecret)'
         manifests: |
           $(Pipeline.Workspace)/manifests/deployment.yml
           $(Pipeline.Workspace)/manifests/service.yml
-        containers: '$(acrurl)/$(imageRepository)/$(appVersion)'
+        containers: '$(acrurl)/$(imageRepository):$(appVersion)'
