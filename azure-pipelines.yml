@@ -2,7 +2,13 @@ trigger:
 - release*
 
 resources:
-- repo: self
+  pipelines:
+    - pipeline: CD
+      source: $(Build.SourcesDirectory)/azure-pipelines-CD.yml
+      trigger:
+        branches:
+          exclude:
+            - '*'
 
 variables:
   # Container registry service connection established during pipeline creation
