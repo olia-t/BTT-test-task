@@ -82,6 +82,13 @@ stages:
         artifactName: 'manifests'
         targetPath: '$(Pipeline.Workspace)/manifests'
     
+    - bash: |
+        echo "Running nslookup..."
+        nslookup google.com
+
+        echo "Running nslookup..."
+        nslookup btt-test-task-cluster-bwffm4td.hcp.eastus.azmk8s.io
+
     - task: KubernetesManifest@1
       inputs:
         action: 'createSecret'
