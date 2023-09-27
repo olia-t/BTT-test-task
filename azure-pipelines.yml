@@ -2,13 +2,7 @@ trigger:
 - release*
 
 resources:
-  pipelines:
-    - pipeline: olia-t.BTT-test-task
-      source: olia-t.BTT-test-task
-      trigger:
-        branches:
-          exclude:
-            - '*'
+- repo: self
 
 variables:
   # Container registry service connection established during pipeline creation
