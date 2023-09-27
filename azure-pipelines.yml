@@ -3,8 +3,8 @@ trigger:
 
 resources:
   pipelines:
-    - pipeline: azure-pipelines-CD.yml
-      source: azure-pipelines-CD.yml
+    - pipeline: azure-pipelines-CD
+      source: azure-pipelines-CD
       trigger:
         branches:
           exclude:
