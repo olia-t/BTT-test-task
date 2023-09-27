@@ -16,6 +16,7 @@ stages:
   variables:
     acrsecret: akssecretacr
     acrurl: bttcontainerregistry1.azurecr.io
+    vmImageName: 'ubuntu-latest'
   jobs:
   - job: Deploy
     displayName: Deploy to AKS
