@@ -93,7 +93,7 @@ stages:
       inputs:
         action: 'createSecret'
         connectionType: 'kubernetesServiceConnection'
-        kubernetesServiceConnection: 'sc-azdo-aks-btt'
+        kubernetesServiceConnection: 'sc-aks-btt'
         namespace: 'default'
         secretType: 'dockerRegistry'
         secretName: '$(acrsecret)'
@@ -103,7 +103,7 @@ stages:
       inputs:
         action: 'deploy'
         connectionType: 'kubernetesServiceConnection'
-        kubernetesServiceConnection: 'sc-azdo-aks-btt'
+        kubernetesServiceConnection: 'sc-aks-btt'
         namespace: 'default'
         imagePullSecrets: '$(acrsecret)'
         manifests: |
