@@ -27,6 +27,7 @@ stages:
     - bash: |
         version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
         echo "##vso[task.setvariable variable=appVersion]$version"
+        echo "$version" > version.txt
       
       displayName: 'Extract Version from package.json'
       env:
@@ -40,3 +41,22 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(appVersion)
+
+- stage: UpdateVersionMD
+  displayName: 'Update version.md in GitHub'
+  jobs:
+    - job: UpdateVersionMDJob
+      displayName: 'Update version.md Job'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - checkout: self
+          persistCredentials: true
+        - bash: |
+            new_version=$(cat version.txt)
+            sed -i "s/|[ ]*nodejsdemoapp[ ]*|[^|]*|[ ]*$/{0}|".format(new_version)/g" version.md
+            git add version.md
+            git commit -m "Update version in version.md"
+            git push
+
+        displayName: 'Update version.md'
