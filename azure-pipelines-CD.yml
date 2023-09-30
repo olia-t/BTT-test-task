@@ -16,6 +16,7 @@ stages:
   variables:
     acrsecret: akssecretacr
     acrurl: bttcontainerregistry1.azurecr.io
+    imageRepository: 'nodejsdemoapp'
     vmImageName: 'ubuntu-latest'
   jobs:
   - job: Deploy
