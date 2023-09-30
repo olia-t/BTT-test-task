@@ -1,0 +1,68 @@
+stages:
+
+- stage: Artifacts
+  jobs:
+    - job: ArtifactsDownload
+      displayName: Download k8s manifests
+      steps:
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/s/kubernetes'
+            artifact: 'manifests'
+            publishLocation: 'pipeline'
+
+- stage: Deploy
+  displayName: Deploy on Dev
+  variables:
+    acrsecret: akssecretacr
+    acrurl: bttcontainerregistry1.azurecr.io
+    imageRepository: 'nodejsdemoapp'
+    vmImageName: 'ubuntu-latest'
+  jobs:
+  - job: Deploy
+    displayName: Deploy to AKS
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - bash: |
+        version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
+        echo "##vso[task.setvariable variable=appVersion]$version"
+      
+      displayName: 'Extract Version from package.json'
+      env:
+        BUILD_SOURCESDIRECTORY: $(Build.SourcesDirectory)
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'manifests'
+        targetPath: '$(Pipeline.Workspace)/manifests'
+    
+    - bash: |
+        echo "Running nslookup..."
+        nslookup google.com
+
+        echo "Running nslookup..."
+        nslookup btt-test-task-cluster-bwffm4td.hcp.eastus.azmk8s.io
+
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'createSecret'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'sc-aks-btt'
+        namespace: 'default'
+        secretType: 'dockerRegistry'
+        secretName: '$(acrsecret)'
+        dockerRegistryEndpoint: 'BTTcontainerregistry1'
+
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'deploy'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'sc-aks-btt'
+        namespace: 'default'
+        imagePullSecrets: '$(acrsecret)'
+        manifests: |
+          $(Pipeline.Workspace)/manifests/deployment.yml
+          $(Pipeline.Workspace)/manifests/service.yml
+        containers: '$(acrurl)/$(imageRepository):$(appVersion)'
