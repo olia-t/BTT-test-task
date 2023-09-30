@@ -40,16 +40,3 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(appVersion)
-
-- stage: TriggerCD
-  displayName: 'Trigger CD Pipeline'
-  jobs:
-  - job: TriggerCDJob
-    displayName: 'Trigger CD Job'
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - bash: |
-        # Trigger the CD pipeline
-        echo "##vso[prerelease.run.triggerPipeline pipeline='azure-pipelines-CD' branch='release']"
-      displayName: 'Trigger CD Pipeline'
