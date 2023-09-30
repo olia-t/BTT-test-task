@@ -59,4 +59,4 @@ stages:
             git commit -m "Update version in version.md"
             git push
 
-        displayName: 'Update version.md'
+          displayName: 'Update version.md'
