@@ -68,56 +68,56 @@ data "azurerm_key_vault_secret" "spn_secret" {
   key_vault_id = data.azurerm_key_vault.kv-BTT.id
 }
 
-#AKS cluster
-resource "azurerm_kubernetes_cluster" "aks-clbtcl" {
-  name                = var.kubernetes_cluster_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  dns_prefix          = "${var.resource_group_name}-cluster"
-  node_resource_group = "${var.resource_group_name}-nrg"
+# #AKS cluster
+# resource "azurerm_kubernetes_cluster" "aks-clbtcl" {
+#   name                = var.kubernetes_cluster_name
+#   location            = var.location
+#   resource_group_name = var.resource_group_name
+#   dns_prefix          = "${var.resource_group_name}-cluster"
+#   node_resource_group = "${var.resource_group_name}-nrg"
 
-  default_node_pool {
-    name                = "defaultpool"
-    node_count          = 1
-    vm_size             = "Standard_D2_v2"
-    enable_auto_scaling = false
+#   default_node_pool {
+#     name                = "defaultpool"
+#     node_count          = 1
+#     vm_size             = "Standard_D2_v2"
+#     enable_auto_scaling = false
 
-  }
-  #to enable auto-scaling
-  # enable_auto_scaling = false
-  # max_count = 3
-  # min_count = 1
-  # type = "VirtualMachineScaleSets"
+#   }
+#   #to enable auto-scaling
+#   # enable_auto_scaling = false
+#   # max_count = 3
+#   # min_count = 1
+#   # type = "VirtualMachineScaleSets"
 
-  linux_profile {
-    admin_username = var.admin_username
-    ssh_key {
-      key_data = data.azurerm_key_vault_secret.ssh_public_key.value
-    }
-  }
+#   linux_profile {
+#     admin_username = var.admin_username
+#     ssh_key {
+#       key_data = data.azurerm_key_vault_secret.ssh_public_key.value
+#     }
+#   }
 
-  service_principal {
-    client_id     = data.azurerm_key_vault_secret.spn_id.value
-    client_secret = data.azurerm_key_vault_secret.spn_secret.value
-  }
+#   service_principal {
+#     client_id     = data.azurerm_key_vault_secret.spn_id.value
+#     client_secret = data.azurerm_key_vault_secret.spn_secret.value
+#   }
   
-  network_profile {
-    network_plugin    = "kubenet"
-    load_balancer_sku = "standard"
-  }
+#   network_profile {
+#     network_plugin    = "kubenet"
+#     load_balancer_sku = "standard"
+#   }
 
-  tags = {
-    Environment = "Dev"
-  }
-}
+#   tags = {
+#     Environment = "Dev"
+#   }
+# }
 
-output "client_certificate" {
-  value     = azurerm_kubernetes_cluster.aks-clbtcl.kube_config.0.client_certificate
-  sensitive = true
-}
+# output "client_certificate" {
+#   value     = azurerm_kubernetes_cluster.aks-clbtcl.kube_config.0.client_certificate
+#   sensitive = true
+# }
 
-output "kube_config" {
-  value = azurerm_kubernetes_cluster.aks-clbtcl.kube_config_raw
+# output "kube_config" {
+#   value = azurerm_kubernetes_cluster.aks-clbtcl.kube_config_raw
 
-  sensitive = true
-}
+#   sensitive = true
+# }
