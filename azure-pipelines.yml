@@ -54,7 +54,7 @@ stages:
         - bash: |
             version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
 
-            sed -i "s/|[[:space:]]*nodejsdemoapp[[:space:]]*|[^|]*|[[:space:]]*$/|nodejsdemoapp|$version|/g" $(Build.SourcesDirectory)/s/version.md
+            sed -i "s/|[[:space:]]*nodejsdemoapp[[:space:]]*|[^|]*|[[:space:]]*$/|nodejsdemoapp|$version|/g" $(Build.SourcesDirectory)/version.md
 
 
           displayName: 'Update version.md'
