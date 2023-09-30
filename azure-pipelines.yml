@@ -27,7 +27,6 @@ stages:
     - bash: |
         version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
         echo "##vso[task.setvariable variable=appVersion]$version"
-        echo $version > $(Build.SourcesDirectory)/version.txt
       
       displayName: 'Extract Version from package.json'
       env:
@@ -53,10 +52,9 @@ stages:
         - checkout: self
           persistCredentials: true
         - bash: |
-            new_version=$(cat $(Build.SourcesDirectory)/s/version.txt)
-            sed -i "s/|[ ]*nodejsdemoapp[ ]*|[^|]*|[ ]*$/{0}|".format(new_version)/g" version.md
-            git add version.md
-            git commit -m "Update version in version.md"
-            git push
+            version=$(jq -r .version $(Build.SourcesDirectory)/nodejs-demo/src/package.json)
+
+            sed -i "s/|[[:space:]]*nodejsdemoapp[[:space:]]*|[^|]*|[[:space:]]*$/|nodejsdemoapp|{0}|".format($version)/g" $(Build.SourcesDirectory)/s/version.md
+
 
           displayName: 'Update version.md'
